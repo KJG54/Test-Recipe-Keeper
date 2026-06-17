@@ -2,6 +2,8 @@
 
 Recipe Keeper is a local-first desktop app for storing personal recipes.
 
+This is a test app made with the agentic Software Factory framework.
+
 ## What It Does
 
 Recipe Keeper helps one person keep recipes on their own computer. It stores recipes locally with SQLite and does not require an account, cloud sync, or an internet connection for normal use.
