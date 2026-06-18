@@ -71,7 +71,19 @@ function formatUpdatedAt(value: string) {
   }).format(new Date(value));
 }
 
+function getSafeSourceUrl(value: string) {
+  try {
+    const parsedUrl = new URL(value);
+    return parsedUrl.protocol === "http:" || parsedUrl.protocol === "https:"
+      ? parsedUrl.href
+      : "";
+  } catch {
+    return "";
+  }
+}
+
 function RecipeDetail({ recipe }: { recipe: Recipe }) {
+  const safeSourceUrl = getSafeSourceUrl(recipe.sourceUrl);
   const quickFacts = [
     recipe.prepTimeMinutes ? `${recipe.prepTimeMinutes} min prep` : "",
     recipe.cookTimeMinutes ? `${recipe.cookTimeMinutes} min cook` : "",
@@ -160,7 +172,13 @@ function RecipeDetail({ recipe }: { recipe: Recipe }) {
       {recipe.sourceUrl ? (
         <section className="detail-section">
           <h3>Source</h3>
-          <a href={recipe.sourceUrl}>{recipe.sourceUrl}</a>
+          {safeSourceUrl ? (
+            <a href={safeSourceUrl} rel="noreferrer" target="_blank">
+              {safeSourceUrl}
+            </a>
+          ) : (
+            <p className="muted">Saved source is not a web URL.</p>
+          )}
         </section>
       ) : null}
     </article>
